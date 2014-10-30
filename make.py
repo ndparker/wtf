@@ -40,6 +40,7 @@ class Target(make.Target):
     def init(self):
         self.dirs = {
             'lib': '.',
+            'docs': 'docs',
             'apidoc': 'docs/apidoc',
             'userdoc': 'docs/userdoc',
             'userdoc_source': 'docs/_userdoc',
