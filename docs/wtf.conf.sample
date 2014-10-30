@@ -1,0 +1,139 @@
+# WTF basic configuration
+##########################
+charset = utf-8
+
+[wtf]
+#pythonpath=
+#    /add/more
+#    /paths/here
+
+mode = daemon
+protocol = http
+# http,scgi
+basedir = .
+umask = inherit
+
+# Tuning: sys.setcheckinterval()
+#checkinterval = 
+
+# identity
+#user = am
+#group = users
+
+# daemon
+detach = no
+listen = localhost:1206
+workermodel = threaded
+# threaded,single
+pidfile = ./pidfile
+errorlog = ./errorlog
+
+# worker
+maxthreads = 10
+minspare = 5
+maxspare = 10
+maxqueue = 0
+
+# http
+servername = localhost
+timeout.general = 10
+timeout.keep-alive = 5
+
+# autoreload
+# Warning:
+#   NOT feasible for production sites, because
+#   * it slows down the service (the requests are serialized)
+#
+# autoreload = off
+
+# global services / middleware
+services =
+    wtf.app.services.crash.CrashService
+    wtf.app.services.config.ConfigService
+    wtf.app.services.log.LogService
+    wtf.app.services.memcache.MemcacheService
+    wtf.app.services.resources.ResourceService
+    wtf.app.services.static.StaticService
+    wtf.app.services.session.SessionService
+
+# wsgi
+application = wtf.app.dispatcher.Dispatcher
+
+# Main application configuration
+#################################
+[app]
+#request = wtf.app.request.Request
+#response = wtf.app.response.Response
+resolver = wtf.app.resolver.MapResolver
+
+package = wtf.app.sample
+
+
+# Crash service configuration
+##############################
+[crash]
+debug = 1
+#dump.directory = ./dumps
+
+
+# Log service configuration
+###########################
+[log]
+level = debug
+
+
+# Memcache service configuration
+################################
+[memcache]
+servers = localhost
+
+#grace_time = 30
+#retry_time = 60
+
+#compress_threshold = 128
+#padded = yes
+#prefix =
+
+#max_age =
+
+#maxconn = 0
+#maxcached = 0
+#weight = 1
+#timeout = 2.6
+
+# overriding settings for particular servers (one section per server)
+#[memcache localhost]
+#weight=2
+
+
+# Resource service configuration
+################################
+[resources]
+static = wtf.app.sample:static-files
+
+
+# Static service configuration
+##############################
+[static]
+# default_type = application/octet-stream
+mime_types = /etc/mime.types
+
+
+# Session service configuration
+###############################
+[session]
+storage = wtf.app.services.session_storage.sharedance.SharedanceStorage
+
+# Sharedance session storage configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[session:sharedance]
+#server = "localhost"
+#timeout = 10
+
+#refresh = auto
+
+#cookie.name = "s"
+#cookie.max_age = 0
+#cookie.domain =
+#cookie.path = "/"
+#cookie.sign = "signkeybase64encoded"
