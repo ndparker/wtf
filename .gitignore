@@ -16,3 +16,4 @@ MANIFEST
 .coverage
 docs/coverage/
 
+wtf/util_private.h
