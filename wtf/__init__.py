@@ -24,7 +24,7 @@ WSGI Tackling Framework (WTF).
 __author__ = u"Andr\xe9 Malo"
 __docformat__ = "restructuredtext en"
 __license__ = "Apache License, Version 2.0"
-__version__ = ('0.8.21', False, 4267)
+__version__ = ('0.8.22', False, 4268)
 
 
 class Error(Exception):
