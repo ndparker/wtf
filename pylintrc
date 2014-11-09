@@ -16,6 +16,7 @@ profile=no
 ignore=
     .git,
     .svn,
+    _crash_tb.py,
 
 # Pickle collected data for later comparisons.
 persistent=no
