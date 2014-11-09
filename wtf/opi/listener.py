@@ -1,34 +1,39 @@
 # -*- coding: ascii -*-
-#
-# Copyright 2006-2012
-# Andr\xe9 Malo or his licensors, as applicable
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""
-Listener Socket
-===============
+u"""
+:Copyright:
 
-Here's the abstraction to the socket handling implemented.
+ Copyright 2006 - 2014
+ Andr\xe9 Malo or his licensors, as applicable
+
+:License:
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+=================
+ Listener Socket
+================
+
+All listening sockets are represented by this single abstraction.
 
 :Variables:
- - `AF_INET`: INET address family
- - `AF_INET6`: INET6 address family (``None`` if not available)
- - `AF_UNIX`: UNIX address family (``None`` if not available)
+  `AF_INET` : ``int``
+    INET address family
 
-:Types:
- - `AF_INET`: ``int``
- - `AF_INET6`: ``int``
- - `AF_UNIX`: ``int``
+  `AF_INET6` : ``int``
+    INET6 address family (``None`` if not available)
+
+  `AF_UNIX` : ``int``
+    UNIX address family (``None`` if not available)
 """
 __author__ = u"Andr\xe9 Malo"
 __docformat__ = "restructuredtext en"
@@ -52,14 +57,18 @@ AF_UNIX = getattr(_socket, "AF_UNIX", None)
 class ShutdownWarning(WtfWarning):
     """ Socket shutdown failures """
 
+
 class ListenerWarning(WtfWarning):
     """ Duplicate listener detected """
+
 
 class SocketError(Error):
     """ Socket error """
 
+
 class SocketTimeout(SocketError):
     """ Socket timeout """
+
 
 class SocketPollError(SocketError):
     """ Socket poll error """
@@ -73,14 +82,13 @@ class ListenerSocket(object):
     an interface as it was one.
 
     :CVariables:
-     - `_TYPES`: Supported socket types and configuration patterns
-       (``(('name', (regex, ...)), ...)``)
+      `_TYPES` : ``tuple``
+        Supported socket types and configuration patterns
+        (``(('name', (regex, ...)), ...)``)
 
     :IVariables:
-     - `_sockets`: List of actual sockets (``[socket, ...]``)
-
-    :Types:
-     - `_TYPES`: ``tuple``
+      `_sockets` : ``list``
+        List of actual sockets (``[socket, ...]``)
     """
     _TYPES = (
         (u'tcp', (
@@ -98,21 +106,19 @@ class ListenerSocket(object):
         Initialization
 
         :Parameters:
-         - `listen`: The addresses to listen on, may not be empty
-         - `basedir`: Basedir for relative paths
+          `listen` : iterable
+            The addresses to listen on, may not be empty
 
-        :Types:
-         - `listen`: ``iterable``
-         - `basedir`: ``str``
+          `basedir` : ``str``
+            Basedir for relative paths
         """
-        # pylint: disable = R0912
-
+        listen = tuple(listen)
         if not listen:
             raise ConfigurationError("No listeners configured")
 
         # The way some OS work require us to follow a two-step-approach here:
         # First we "prepare" the sockets by determining the details for
-        # every socket. The we reorder them, so we can filter out dupes
+        # every socket. Then we reorder them, so we can filter out dupes
         # or includes. Includes are bindings which are already handled
         # by another binding, like localhost:1206 is included in *:1206
         # A special, but related problem is the inclusion of IPv4 in IPv6.
@@ -237,15 +243,13 @@ class ListenerSocket(object):
          - `bind`: ``callable``
          - `basedir`: ``basestring``
         """
-        # pylint: disable = W0613
-
         obind = repr(bind(0))
         host, port, flags = bind(u'ip'), bind(u'port'), 0
         port = int(port)
         if not host or host == u'*':
             host, flags = None, _socket.AI_PASSIVE
         elif host.startswith(u'[') and host.endswith(u']'):
-            host = host[1:-1].encode('ascii') # IPv6 notation [xxx:xxx:xxx]
+            host = host[1:-1].encode('ascii')  # IPv6 notation [xxx:xxx:xxx]
         else:
             host = host.encode('idna')
         try:
@@ -572,7 +576,6 @@ class InetSocket(SocketDecorator):
         In addition to the base's ``__cmp__`` method, we compare the host
         and the rest of the bind value.
         """
-        # pylint: disable = W0212
         return (
             super(InetSocket, self).__cmp__(other) or
             cmp(self._host or '', other._host or '') or
@@ -780,7 +783,6 @@ class _AdapterInterface(object):
 
 
 class _SelectAdapter(object):
-    # pylint: disable = C0111
     __implements__ = [_AdapterInterface]
 
     def __init__(self):
@@ -803,7 +805,6 @@ class _SelectAdapter(object):
 
 
 class _PollAdapter(object):
-    # pylint: disable = C0111
     __implements__ = [_AdapterInterface]
 
     def __init__(self):
@@ -819,5 +820,5 @@ class _PollAdapter(object):
     def remove(self, fd):
         self._pollset.unregister(fd)
 
-    def poll(self, timeout=None): # pylint: disable = E0202
+    def poll(self, timeout=None):
         return self._pollset.poll(timeout)
