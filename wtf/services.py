@@ -1,6 +1,6 @@
 # -*- coding: ascii -*-
 #
-# Copyright 2006-2012
+# Copyright 2006-2016
 # Andr\xe9 Malo or his licensors, as applicable
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +26,21 @@ __docformat__ = "restructuredtext en"
 from wtf import Error, WtfWarning
 from wtf import util as _util
 
+_global_services = {}  # pylint: disable = invalid-name
+
+
+def global_service(name):
+    """
+    Find global service by name
+
+    :Return: Service module or ``None``
+    """
+    return _global_services.get(name)
+
 
 class ServiceError(Error):
     """ Service intialization failure """
+
 
 class ServiceInterfaceWarning(WtfWarning):
     """ Service interface warning """
@@ -70,7 +82,7 @@ class ServiceInterface(object):
         return ``None``
 
         :return: A tuple containing the global object the service provides
-                 and the name which the object will be stored under in the 
+                 and the name which the object will be stored under in the
                  service module (``('name', any)``)
         :rtype: ``tuple``
         """
@@ -112,6 +124,7 @@ class ServiceManager(object):
     def __init__(self):
         """ Initialization """
         self._services = []
+        self._globals = {}
 
     def __del__(self):
         """ Destruction """
@@ -200,14 +213,15 @@ def init(config, opts, args, services, module='__svc__'):
         manager.add(service)
         svc = service.global_service()
         if svc is not None:
-            name, svc = svc
-            name = module + name.split('.')
+            fullname, svc = svc
+            name = module + fullname.split('.')
             if len(name) > 1:
                 (prename, _), name = _util.make_dotted(
                     '.'.join(name[:-1])), name[-1]
             if getattr(prename, name, None) is not None:
                 raise ServiceError("%s.%s already exists" % (prename, name))
             setattr(prename, name, svc)
+            _global_services[fullname] = svc
 
     manager.finalize()
     return manager
