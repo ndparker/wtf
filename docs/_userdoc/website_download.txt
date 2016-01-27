@@ -9,11 +9,11 @@ Source Packages
 Current Stable Version
 ''''''''''''''''''''''
 
-- `wtf-0.8.22.tar.lzma <http://storage.perlig.de/wtf/wtf-0.8.22.tar.lzma>`_
-- `wtf-0.8.22.tar.bz2 <http://storage.perlig.de/wtf/wtf-0.8.22.tar.bz2>`_
-- `wtf-0.8.22.tar.gz <http://storage.perlig.de/wtf/wtf-0.8.22.tar.gz>`_
-- `wtf-0.8.22.zip <http://storage.perlig.de/wtf/wtf-0.8.22.zip>`_
-- `wtf-0.8.22.digests <http://storage.perlig.de/wtf/wtf-0.8.22.digests>`_
+- `wtf-0.8.23.tar.lzma <http://storage.perlig.de/wtf/wtf-0.8.23.tar.lzma>`_
+- `wtf-0.8.23.tar.bz2 <http://storage.perlig.de/wtf/wtf-0.8.23.tar.bz2>`_
+- `wtf-0.8.23.tar.gz <http://storage.perlig.de/wtf/wtf-0.8.23.tar.gz>`_
+- `wtf-0.8.23.zip <http://storage.perlig.de/wtf/wtf-0.8.23.zip>`_
+- `wtf-0.8.23.digests <http://storage.perlig.de/wtf/wtf-0.8.23.digests>`_
 
 .. end stable
 
@@ -27,17 +27,17 @@ Integrity Check
 
 There are hashes (MD5, SHA1 and SHA256) of the download packages stored
 in the `digests file
-<http://storage.perlig.de/wtf/wtf-0.8.22.digests>`_\. In order to
+<http://storage.perlig.de/wtf/wtf-0.8.23.digests>`_\. In order to
 check the integrity of the downloaded file, use a tool like md5sum (or
 sha1sum, sha256sum accordingly), e.g.:
 
 .. sourcecode:: console
 
-    $ md5sum -c wtf-0.8.22.digests
-    wtf-0.8.22.tar.bz2: OK
-    wtf-0.8.22.tar.gz: OK
-    wtf-0.8.22.tar.lzma: OK
-    wtf-0.8.22.zip: OK
+    $ md5sum -c wtf-0.8.23.digests
+    wtf-0.8.23.tar.bz2: OK
+    wtf-0.8.23.tar.gz: OK
+    wtf-0.8.23.tar.lzma: OK
+    wtf-0.8.23.zip: OK
 
 In order to check the integrity of the digest file itself, you can check
 the PGP signature of that file. The file is signed by André Malo, Key-ID
@@ -45,7 +45,7 @@ the PGP signature of that file. The file is signed by André Malo, Key-ID
 
 .. sourcecode:: console
 
-    $ gpg --verify wtf-0.8.22.digests
+    $ gpg --verify wtf-0.8.23.digests
     gpg: Signature made Thu Oct 30 16:59:00 2014 CET using DSA key ID 8103A37E
     gpg: Good signature from "Andre Malo <nd@apache.org>"
     gpg:                 aka "Andr\xe9\x20Malo <nd@perlig.de>"
