@@ -25,7 +25,7 @@ out of it.
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright 2006-2012
+Copyright 2006-2016
 André Malo or his licensors, as applicable.
 
 The whole package is distributed under the Apache License Version 2.0.
