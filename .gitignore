@@ -12,6 +12,7 @@ _website/
 .sw?
 .*.sw?
 MANIFEST
+*.egg-info
 
 .coverage
 docs/coverage/
