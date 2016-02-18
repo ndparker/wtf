@@ -341,6 +341,11 @@ wtf_quote(PyObject *self, PyObject *args, PyObject *kwds)
                                      &string, &safe, &encoding, &errors))
         return NULL;
 
+    if (string == Py_None) {
+        PyErr_SetString(PyExc_TypeError, "None object cannot be quoted");
+        return NULL;
+    }
+
     return quote_internal(string, safe, encoding, errors, 0);
 }
 
@@ -378,6 +383,12 @@ wtf_quote_plus(PyObject *self, PyObject *args, PyObject *kwds)
                                      &string, &safe, &encoding, &errors))
         return NULL;
 
+    if (string == Py_None) {
+        PyErr_SetString(PyExc_TypeError,
+                        "argument of type 'NoneType' is not iterable");
+        return NULL;
+    }
+
     return quote_internal(string, safe, encoding, errors, 1);
 }
 
@@ -404,6 +415,12 @@ wtf_unquote(PyObject *self, PyObject *args, PyObject *kwds)
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "O", kwlist, &string))
         return NULL;
+
+    if (string == Py_None) {
+        PyErr_SetString(PyExc_TypeError,
+                        "'NoneType' object has no attribute 'split'");
+        return NULL;
+    }
 
     if (PyUnicode_CheckExact(string) || PyUnicode_Check(string))
         return unquote_internal_unicode(string, 0);
@@ -433,6 +450,12 @@ wtf_unquote_plus(PyObject *self, PyObject *args, PyObject *kwds)
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "O", kwlist, &string))
         return NULL;
+
+    if (string == Py_None) {
+        PyErr_SetString(PyExc_TypeError,
+                        "'NoneType' object has no attribute 'replace'");
+        return NULL;
+    }
 
     if (PyUnicode_CheckExact(string) || PyUnicode_Check(string))
         return unquote_internal_unicode(string, 1);
