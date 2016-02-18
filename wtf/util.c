@@ -156,7 +156,7 @@ unquote_internal_unicode(PyObject *string, int plus)
 
     su = PyUnicode_AS_UNICODE(string);
     slen = tlen = PyUnicode_GET_SIZE(string);
-    
+
     for (j=0, sentinel=slen-2; j<sentinel; ++j) {
         if (   WTF_IS_LATIN1(su[j]) && (su[j] & 0xFF) == '%'
             && WTF_IS_LATIN1(su[j+1]) && WTF_IS_HEX_DIGIT(su[j+1])
